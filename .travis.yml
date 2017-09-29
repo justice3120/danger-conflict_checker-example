@@ -1,0 +1,7 @@
+language: ruby
+install: bundle install
+cache:
+  directories: vendor/bundle
+
+script:
+  - bundle exec danger
