@@ -2,6 +2,14 @@ language: ruby
 install: bundle install
 cache:
   directories: vendor/bundle
-
+before_script:
+- echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/deploy.key\n"
+  >> ~/.ssh/config
+- openssl aes-256-cbc -k "$secret" -in .travis/deploy_key.enc -d -a -out deploy.key
+- cp deploy.key ~/.ssh/
+- chmod 600 ~/.ssh/deploy.key
 script:
-  - bundle exec danger
+- bundle exec danger
+env:
+  global:
+    secure: FkH3y4miVYdhwjui7PaKGbqMIqHa/NbCSC00I1EekicOb/QE6idcWipLDI8uLADLK8naFkJhFj8fvuAP+D5sFZAtAvfncsOTIvKLxo+mtJLvUetgUkTdKlWjDZVrWmqAprWl8+z+jyegpURUDVC/SqyR0w/hsumJbGQuKj1s1k49AkcWEAHTydlMiCUjHs+AI6+cO1PkRvl7nvjamUHlX+/amJ0Ic/tz9uSn9heryGN8TujfrGKALv5ycxkJwCXh/zUzKx8ktmgJLwzO/SjGT//pSyrop0vBBrCWX/scmbZLE6ohbqlxcFY3N9Vko/kyZWnpQ4XB9OJcdwEJghBu0pu3obIvp4hKRmtOOIsD8HFlf8FwfzUGE26jN/jDD8khJWRXuhkPR4YGoxg0m8opxE2bHOZKZWe+3bUBSX9judzjpo/hZXxni4iuz6cfznRJ6Qr1P86jNs+dvTuchgmClqP7jqMc0uRi3eZj5692fEh+b7eL8Klh08qL2ejK+rI9n9HQRLHGYVNTSVMeWRb3/3JaDZKH9ArimojaYJICrZepCfJZF0qkXsgWI2mkK1bByrtvzUnWxtksR4PriepFoTMbek3LG9nRyt8C3rSqromXZ4GN9B+sXSP+I4ezRF66jf0KjeQXswBjzvO2d0Y4ySd8ifHhF4dqoeFcCAtbUOM=
