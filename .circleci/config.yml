@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ruby
+    steps:
+      - checkout
+      - type: cache-restore
+        key: repo-{{ checksum "Gemfile.lock" }}
+      - run: bundle install -j 4 --path vendor/bundle
+      - type: cache-save
+        key: repo-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+      - run: bundle exec danger
