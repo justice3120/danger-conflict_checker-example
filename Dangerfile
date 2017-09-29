@@ -1,0 +1,1 @@
+conflict_checker.check_conflict_and_comment()
